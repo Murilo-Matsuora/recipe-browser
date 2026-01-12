@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Recipe - {{ meal.strMeal }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('home') }}" class="text-success text-decoration-none">Home</a></li>
+            
+            {% if filter_type and filter_value %}
+                <li class="breadcrumb-item">
+                    <a href="{{ url_for('filter_list', filter_type=filter_type) }}" class="text-success text-decoration-none">
+                        {{ filter_type_full }}
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ url_for('filter_results', filter_type=filter_type, value=filter_value) }}" class="text-success text-decoration-none">
+                        {{ filter_value }}
+                    </a>
+                </li>
+            {% endif %}
+            
+            <li class="breadcrumb-item active" aria-current="page">{{ meal.strMeal }}</li>
+        </ol>
+    </nav>
+
+    <div class="row mb-5">
+        <div class="col-lg-6">
+            <img src="{{ meal.strMealThumb }}" class="img-fluid rounded-4 shadow w-100" alt="{{ meal.strMeal }}">
+        </div>
+        <div class="col-lg-6 d-flex flex-column justify-content-center mt-4 mt-lg-0">
+            <span class="badge bg-warning text-dark align-self-start mb-2">{{ meal.strArea }}</span>
+            <h1 class="display-4 fw-bold mb-3">{{ meal.strMeal }}</h1>
+            <p class="text-muted fs-5">Category: <span class="fw-semibold text-dark">{{ meal.strCategory }}</span></p>
+            
+            <div class="d-flex gap-2 mt-3">
+                {% if meal.strSource %}
+                    <a href="{{ meal.strSource }}" target="_blank" class="btn btn-outline-dark rounded-pill px-4">
+                        <i class="bi bi-link-45deg"></i> Original Recipe
+                    </a>
+                {% endif %}
+                {% if youtube_id %}
+                    <a href="#video-section" class="btn btn-danger rounded-pill px-4">
+                        <i class="bi bi-youtube"></i> Watch Video
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5 text-muted">
+
+    <div class="row g-5">
+        <div class="col-md-4">
+            <div class="card border-0 bg-light-green shadow-sm p-4 sticky-top" style="top: 2rem; z-index: 1;">
+                <h3 class="fw-bold mb-4 text-success">Ingredients</h3>
+                <ul class="list-group list-group-flush bg-transparent">
+                    {% for item in ingredients %}
+                    <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0 py-3 border-bottom border-success-subtle">
+                        <span>{{ item.item }}</span>
+                        <span class="fw-bold text-dark">{{ item.measure }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h3 class="fw-bold mb-4">Instructions</h3>
+            <div class="vstack gap-4">
+                {% for step in instructions %}
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                        <span class="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle fs-5 fw-bold" style="width: 40px; height: 40px;">
+                            {{ loop.index }}
+                        </span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="fs-5 text-secondary mb-0" style="line-height: 1.8;">{{ step }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if youtube_id %}
+            <div id="video-section" class="mt-5 pt-5">
+                <h3 class="fw-bold mb-4">Watch how to make it</h3>
+                <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow">
+                    <iframe src="https://www.youtube.com/embed/{{ youtube_id }}" 
+                            title="YouTube video player" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

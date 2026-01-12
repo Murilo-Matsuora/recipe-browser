@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">Browse by {{ filter_type_full }}</h1>
+        <p class="text-muted">Select a variety to discover delicious recipes.</p>
+        <div class="header-line mx-auto"></div>
+    </div>
+
+    <div class="row g-4">
+        {% for element in elements %}
+        {% set element_name = element.strIngredient or element.strArea or element.strCategory %}
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <a href="{{ url_for('filter_results', filter_type=filter_type, value=element_name) }}" class="text-decoration-none">
+                <div class="card h-100 border-0 shadow-sm filter-card">
+                    <div class="card-body text-center p-4">
+                        {% if element.strThumb %}
+                        <img src="{{ element.strThumb }}"
+                            class="img-fluid mb-2" alt="{{ element.strIngredient }}">
+                        {% endif %}
+
+                        <h5 class="card-title mb-0 fw-semibold">
+                            {{ element_name }}
+                        </h5>
+
+                    </div>
+                </div>
+            </a>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('home') }}" class="text-success">Home</a></li>
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('filter_list', filter_type=filter_type) }}" class="text-success">
+                    {{ filter_type_full }}
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ value }}</li>
+        </ol>
+    </nav>
+    <div class="text-center mb-5">
+        <span class="text-uppercase tracking-widest text-muted small fw-bold">{{ filter_type_full }}</span>
+        <h1 class="display-4 fw-bold text-capitalize mt-2">{{ value }}</h1>
+        <p class="lead text-muted">Discover the best recipes for your selection.</p>
+        <div class="header-line mx-auto"></div>
+    </div>
+
+    <div class="row g-4">
+        {% for meal in meals %}
+        <div class="col-sm-6 col-lg-4">
+            <a href="{{ url_for('show_recipe', id=meal.idMeal, filter_type=filter_type, value=value) }}" class="text-decoration-none group">
+                <div class="card h-100 border-0 shadow-sm meal-card overflow-hidden">
+                    <div class="position-relative overflow-hidden">
+                        {% if meal.strMealThumb %}
+                        <img src="{{ meal.strMealThumb }}" class="card-img-top meal-img" alt="{{ meal.strMeal }}">
+                        {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <span class="text-muted">No Image Available</span>
+                        </div>
+                        {% endif %}
+
+                        <div class="meal-overlay d-flex align-items-center justify-content-center">
+                            <span class="btn btn-light btn-sm fw-bold">View Recipe</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-3">
+                        <h5 class="card-title h6 mb-0 text-dark fw-bold text-truncate">
+                            {{ meal.strMeal }}
+                        </h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% else %}
+        <div class="col-12 text-center py-5">
+            <div class="col-12 text-center py-5">
+            <h3 class="text-muted">No recipes found for "{{ value }}"</h3>
+            <a href="{{ url_for('home') }}" class="btn rounded mt-3 bg-yellow">Back to Home</a>
+        </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

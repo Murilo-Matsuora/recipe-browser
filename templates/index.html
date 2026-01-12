@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Welcome to Recipeasy{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center text-white d-flex align-items-center justify-content-center mb-5">
+    <div class="container position-relative z-2">
+        <h1 class="display-1 fw-bold mb-3">Cook Something New</h1>
+        <p class="lead mb-4 fs-3">Discover recipes from around the world with ingredients you love.</p>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <form action="{{ url_for('search') }}" method="GET" class="d-flex shadow-lg p-2 bg-white rounded-pill">
+                    <input class="form-control form-control-lg border-0 rounded-pill ps-4" 
+                           type="search" 
+                           name="q" 
+                           placeholder="What are you craving? (e.g. Pasta, Beef...)" 
+                           required>
+                    <button class="btn btn-success rounded-pill px-4 fw-bold" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="hero-overlay"></div>
+</div>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Browse by Category</h2>
+        <p class="text-muted">Not sure what to eat? Explore our collections.</p>
+        <hr class="w-25 mx-auto" style="color: #B1C29E; height: 3px; opacity: 1;">
+    </div>
+
+    <div class="row g-4 text-center">
+        <div class="col-md-4">
+            <a href="{{ url_for('filter_list', filter_type='c') }}" class="text-decoration-none text-dark group">
+                <div class="card h-100 border-0 shadow-sm hover-card p-4">
+                    <div class="icon-circle mx-auto mb-3 bg-light-green text-white">
+                        <i class="bi bi-tags-fill fs-2"></i>
+                    </div>
+                    <h3 class="h4 fw-bold">Categories</h3>
+                    <p class="text-muted">Breakfast, Dessert, Vegan, and more.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="{{ url_for('filter_list', filter_type='a') }}" class="text-decoration-none text-dark group">
+                <div class="card h-100 border-0 shadow-sm hover-card p-4">
+                    <div class="icon-circle mx-auto mb-3 bg-light-green text-white">
+                        <i class="bi bi-globe-americas fs-2"></i>
+                    </div>
+                    <h3 class="h4 fw-bold">Regions</h3>
+                    <p class="text-muted">Italian, Mexican, Japanese flavors.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="{{ url_for('filter_list', filter_type='i') }}" class="text-decoration-none text-dark group">
+                <div class="card h-100 border-0 shadow-sm hover-card p-4">
+                    <div class="icon-circle mx-auto mb-3 bg-light-green text-white">
+                        <i class="bi bi-basket-fill fs-2"></i>
+                    </div>
+                    <h3 class="h4 fw-bold">Ingredients</h3>
+                    <p class="text-muted">Find recipes based on what you have.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5 mb-5">
+    <div class="bg-light rounded-4 p-5 text-center shadow-sm position-relative overflow-hidden">
+        <div class="position-relative z-2">
+            <h2 class="fw-bold mb-3">Feeling Adventurous?</h2>
+            <p class="lead text-muted mb-4">Let us pick a random meal for you to cook today.</p>
+            <a href="{{ url_for('random_recipe') }}" class="btn btn-lg btn-success rounded-pill px-5 shadow">
+                <i class="bi bi-dice-5-fill me-2"></i> Surprise Me!
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
